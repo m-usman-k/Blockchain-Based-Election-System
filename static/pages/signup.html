@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Blockchain Election Sign Up</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static' , filename='styles/signup.css')}}"
+        />
+    </head>
+    <body>
+        <div class="signup-container">
+            <div class="form-header">
+                <h1>Sign Up</h1>
+                <p>Join the blockchain-based election system securely.</p>
+            </div>
+            <div class="signup-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your Name"
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="cnic">CNIC</label>
+                    <input
+                        type="text"
+                        id="cnic"
+                        name="cnic"
+                        placeholder="Enter your CNIC"
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your Password"
+                        required
+                    />
+                </div>
+                <p id="error-label"></p>
+                <button type="submit" class="submit-btn" onclick="signup()">
+                    Create Account
+                </button>
+                <p class="redirect">
+                    Already have an account? <a href="/signin">Log in here</a>.
+                </p>
+            </div>
+        </div>
+        <script src="{{ url_for('static' , filename='scripts/signup.js')}}"></script>
+    </body>
+</html>

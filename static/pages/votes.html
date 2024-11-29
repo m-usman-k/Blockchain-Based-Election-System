@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vote Details</title>
+        <link rel="stylesheet" href="/static/css/styles.css" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .container {
+                width: 90%;
+                max-width: 600px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                text-align: center;
+            }
+
+            .container h1 {
+                color: #333;
+                margin-bottom: 20px;
+            }
+
+            .details-card {
+                background: #f4f4f4;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 20px;
+                text-align: left;
+            }
+
+            .details-card h2 {
+                margin: 0;
+                color: #555;
+            }
+
+            .details-card p {
+                margin: 5px 0;
+                color: #666;
+            }
+
+            .back-btn {
+                display: inline-block;
+                padding: 10px 20px;
+                background: #007bff;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+            }
+
+            .back-btn:hover {
+                background: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>My Vote Details</h1>
+            <div class="details-card">
+                <h2>Voter Information</h2>
+                <p>
+                    <strong>Name:</strong>
+                    <span id="voter-name">Loading...</span>
+                </p>
+                <p>
+                    <strong>CNIC:</strong>
+                    <span id="voter-cnic">Loading...</span>
+                </p>
+            </div>
+            <div class="details-card">
+                <h2>Vote Information</h2>
+                <p>
+                    <strong>Candidate Name:</strong>
+                    <span id="candidate-name">Loading...</span>
+                </p>
+                <p>
+                    <strong>Party:</strong>
+                    <span id="candidate-party">Loading...</span>
+                </p>
+                <p>
+                    <strong>Poll ID:</strong>
+                    <span id="candidate-poll-id">Loading...</span>
+                </p>
+            </div>
+            <a href="/" class="back-btn">Go Back</a>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                fetchVoteDetails();
+            });
+
+            function fetchVoteDetails() {
+                const cnic = getCookie("cnic");
+                const password = getCookie("password");
+
+                console.log({ cnic, password });
+
+                fetch("/api/vote/get-vote-details", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ cnic, password }),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.error) {
+                            alert(
+                                "Error fetching vote details. Redirecting to login."
+                            );
+                            window.location.replace("/logout");
+                        } else {
+                            document.getElementById("voter-name").textContent =
+                                data.voter_name;
+                            document.getElementById("voter-cnic").textContent =
+                                data.cnic;
+                            document.getElementById(
+                                "candidate-name"
+                            ).textContent = data.candidate_name;
+                            document.getElementById(
+                                "candidate-party"
+                            ).textContent = data.party;
+                            document.getElementById(
+                                "candidate-poll-id"
+                            ).textContent = data.poll_id;
+                        }
+                    })
+                    .catch(() => {
+                        alert("An error occurred while fetching vote details.");
+                    });
+            }
+
+            function getCookie(name) {
+                let match = document.cookie.match(
+                    new RegExp("(^| )" + name + "=([^;]+)")
+                );
+                return match ? match[2] : null;
+            }
+        </script>
+    </body>
+</html>

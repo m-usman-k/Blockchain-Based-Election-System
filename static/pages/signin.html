@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Blockchain Election Sign In</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='styles/signin.css') }}"
+        />
+    </head>
+    <body>
+        <div class="signin-container">
+            <div class="form-header">
+                <h1>Sign In</h1>
+                <p>Access your blockchain election account securely.</p>
+            </div>
+            <div class="signin-form">
+                <div>
+                    <div class="form-group">
+                        <label for="cnic">CNIC</label>
+                        <input
+                            type="text"
+                            id="cnic"
+                            name="cnic"
+                            placeholder="Enter your CNIC"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your Password"
+                            required
+                        />
+                    </div>
+                    <p id="error-label"></p>
+                    <button type="submit" class="submit-btn" onclick="signin()">
+                        Sign In Now
+                    </button>
+                    <p class="redirect">
+                        Don’t have an account?
+                        <a href="/signup">Create one here</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script src="{{ url_for('static' , filename='scripts/signin.js')}}"></script>
+    </body>
+</html>
